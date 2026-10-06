@@ -1,0 +1,247 @@
+MySQL Shell 26.7.1
+EVA1_6_ALTER_TABLE
+Copyright (c) 2016, 2026, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ****
+Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 15
+Server version: 8.0.46 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| t1                 |
+| t1_copia           |
+| world              |
++--------------------+
+8 rows in set (0.0011 sec)
+ MySQL  localhost:3306 ssl  SQL > use t1;
+Default schema set to `t1`.
+Fetching global names, object names from `t1` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  t1  SQL > show tables;
++----------------+
+| Tables_in_t1   |
++----------------+
+| actor_copia    |
+| customer_copia |
+| empleado       |
+| persona        |
+| playera        |
+| vehiculo       |
+| vehiculo2      |
++----------------+
+8 rows in set (0.0016 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > create table persona_mod ( id int not null key auto_increment, nom varchar(10), apellido varchar(10));
+Query OK, 0 rows affected (0.0278 sec)
+ MySQL  localhost:3306 ssl  t1  SQL >  desc persona_mod;
++----------+-------------+------+-----+---------+----------------+
+| Field    | Type        | Null | Key | Default | Extra          |
++----------+-------------+------+-----+---------+----------------+
+| id       | int         | NO   | PRI | NULL    | auto_increment |
+| nom      | varchar(10) | YES  |     | NULL    |                |
+| apellido | varchar(10) | YES  |     | NULL    |                |
++----------+-------------+------+-----+---------+----------------+
+3 rows in set (0.0029 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > alter table persona_mod
+                                   -> add fecha_nac date not null after id;
+Query OK, 0 rows affected (0.0585 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1  SQL > desc persona_mod;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int         | NO   | PRI | NULL    | auto_increment |
+| fecha_nac | date        | NO   |     | NULL    |                |
+| nom       | varchar(10) | YES  |     | NULL    |                |
+| apellido  | varchar(10) | YES  |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+4 rows in set (0.0017 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > alter table persona_mod
+                                   -> drop fecha_nac;
+Query OK, 0 rows affected (0.0494 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1  SQL > alter table persona_mod add fecha_nac date not null;
+Query OK, 0 rows affected (0.0663 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1  SQL > desc persona_mod;
++-----------+-------------+------+-----+---------+----------------+
+| Field     | Type        | Null | Key | Default | Extra          |
++-----------+-------------+------+-----+---------+----------------+
+| id        | int         | NO   | PRI | NULL    | auto_increment |
+| nom       | varchar(10) | YES  |     | NULL    |                |
+| apellido  | varchar(10) | YES  |     | NULL    |                |
+| fecha_nac | date        | NO   |     | NULL    |                |
++-----------+-------------+------+-----+---------+----------------+
+4 rows in set (0.0019 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > alter table persona_mod
+                                   -> rename column id to id_persona;
+Query OK, 0 rows affected (0.0267 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1  SQL > desc persona_mod;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id_persona | int         | NO   | PRI | NULL    | auto_increment |
+| nom        | varchar(10) | YES  |     | NULL    |                |
+| apellido   | varchar(10) | YES  |     | NULL    |                |
+| fecha_nac  | date        | NO   |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.0015 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > alter table persona_mod
+                                   -> change nom nombre varchar(50) not null;
+Query OK, 0 rows affected (0.0493 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1  SQL > desc persona_mod;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id_persona | int         | NO   | PRI | NULL    | auto_increment |
+| nombre     | varchar(50) | NO   |     | NULL    |                |
+| apellido   | varchar(10) | YES  |     | NULL    |                |
+| fecha_nac  | date        | NO   |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.0017 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > alter table persona_mod change apellido apellido_pat varchar(50) not null;
+Query OK, 0 rows affected (0.0506 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1  SQL > desc persona_mod;
++--------------+-------------+------+-----+---------+----------------+
+| Field        | Type        | Null | Key | Default | Extra          |
++--------------+-------------+------+-----+---------+----------------+
+| id_persona   | int         | NO   | PRI | NULL    | auto_increment |
+| nombre       | varchar(50) | NO   |     | NULL    |                |
+| apellido_pat | varchar(50) | NO   |     | NULL    |                |
+| fecha_nac    | date        | NO   |     | NULL    |                |
++--------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.0015 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > alter table persona_mod add apellido_mat varchar(50) after apellido_pat;
+Query OK, 0 rows affected (0.0501 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1  SQL > desc persona_mod;
++--------------+-------------+------+-----+---------+----------------+
+| Field        | Type        | Null | Key | Default | Extra          |
++--------------+-------------+------+-----+---------+----------------+
+| id_persona   | int         | NO   | PRI | NULL    | auto_increment |
+| nombre       | varchar(50) | NO   |     | NULL    |                |
+| apellido_pat | varchar(50) | NO   |     | NULL    |                |
+| apellido_mat | varchar(50) | YES  |     | NULL    |                |
+| fecha_nac    | date        | NO   |     | NULL    |                |
++--------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.0016 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > alter table persona_mod rename to persona_modificada;
+Query OK, 0 rows affected (0.0209 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > show tables;
++--------------------+
+| Tables_in_t1       |
++--------------------+
+| actor_copia        |
+| customer_copia     |
+| empleado           |
+| persona            |
+| persona_modificada |
+| playera            |
+| vehiculo           |
+| vehiculo2          |
++--------------------+
+9 rows in set (0.0016 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > create table estudiante(
+                                   -> id_es int,nombre varchar(10),aéllidos varchar(50) not null,carrera varchar(50));
+Query OK, 0 rows affected (0.0238 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > alter table estudiante
+                                   -> rename column id_es to id_estudiante;
+Query OK, 0 rows affected (0.0230 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1  SQL >  desc estudiante;
++---------------+-------------+------+-----+---------+-------+
+| Field         | Type        | Null | Key | Default | Extra |
++---------------+-------------+------+-----+---------+-------+
+| id_estudiante | int         | YES  |     | NULL    |       |
+| nombre        | varchar(10) | YES  |     | NULL    |       |
+| aéllidos      | varchar(50) | NO   |     | NULL    |       |
+| carrera       | varchar(50) | YES  |     | NULL    |       |
++---------------+-------------+------+-----+---------+-------+
+4 rows in set (0.0016 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > ALTER TABLE estudiante MODIFY COLUMN id_estudiante INT NOT NULL PRIMARY KEY AUTO_INCREMENT;
+Query OK, 0 rows affected (0.0662 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1  SQL > ALTER TABLE estudiante MODIFY COLUMN nombre VARCHAR(50) NOT NULL;
+Query OK, 0 rows affected (0.0507 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1  SQL > desc estudiante;
++---------------+-------------+------+-----+---------+----------------+
+| Field         | Type        | Null | Key | Default | Extra          |
++---------------+-------------+------+-----+---------+----------------+
+| id_estudiante | int         | NO   | PRI | NULL    | auto_increment |
+| nombre        | varchar(50) | NO   |     | NULL    |                |
+| aéllidos      | varchar(50) | NO   |     | NULL    |                |
+| carrera       | varchar(50) | YES  |     | NULL    |                |
++---------------+-------------+------+-----+---------+----------------+
+4 rows in set (0.0011 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > alter table estudiante rename column aéllidos to apellidos;
+Query OK, 0 rows affected (0.0208 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1  SQL > ALTER TABLE estudiante add fecha_nac date not null after apellidos;
+Query OK, 0 rows affected (0.0597 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1  SQL > alter table estudiante rename column apellidos to apellido_pat;
+Query OK, 0 rows affected (0.0285 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1  SQL > ALTER TABLE estudiante add apellido_mat varchar(50) not null;
+Query OK, 0 rows affected (0.0485 sec)
+
+Records: 0  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1  SQL >  alter table estudiante rename to matricula;
+Query OK, 0 rows affected (0.0204 sec)
+ MySQL  localhost:3306 ssl  t1  SQL >  desc matricula;
++---------------+-------------+------+-----+---------+----------------+
+| Field         | Type        | Null | Key | Default | Extra          |
++---------------+-------------+------+-----+---------+----------------+
+| id_estudiante | int         | NO   | PRI | NULL    | auto_increment |
+| nombre        | varchar(50) | NO   |     | NULL    |                |
+| apellido_pat  | varchar(50) | NO   |     | NULL    |                |
+| fecha_nac     | date        | NO   |     | NULL    |                |
+| carrera       | varchar(50) | YES  |     | NULL    |                |
+| apellido_mat  | varchar(50) | NO   |     | NULL    |                |
++---------------+-------------+------+-----+---------+----------------+
+6 rows in set (0.0031 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > show tables;
++--------------------+
+| Tables_in_t1       |
++--------------------+
+| actor_copia        |
+| customer_copia     |
+| empleado           |
+| matricula          |
+| persona            |
+| persona_modificada |
+| playera            |
+| vehiculo           |
+| vehiculo2          |
++--------------------+
+9 rows in set (0.0015 sec)
+ MySQL  localhost:3306 ssl  t1  SQL >

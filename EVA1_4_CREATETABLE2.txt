@@ -1,0 +1,320 @@
+MySQL Shell 26.7.1
+
+Copyright (c) 2016, 2026, Oracle and/or its affiliates.
+Oracle is a registered trademark of Oracle Corporation and/or its affiliates.
+Other names may be trademarks of their respective owners.
+
+Type '\help' or '\?' for help; '\quit' to exit.
+ MySQL  SQL >  \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ****
+Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 12
+Server version: 8.0.46 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > use t1;
+Default schema set to `t1`.
+Fetching global names, object names from `t1` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  t1  SQL > create temporary table prueba( id int, valor varchar(10));
+Query OK, 0 rows affected (0.0056 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > insert into prueba values(1, "wassup"),(2,"hello"),(3,"gomd");
+Query OK, 3 rows affected (0.0053 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1  SQL >  select * from prueba;
++----+--------+
+| id | valor  |
++----+--------+
+|  1 | wassup |
+|  2 | hello  |
+|  3 | gomd   |
++----+--------+
+3 rows in set (0.0035 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > \disconnect
+ MySQL  SQL > \connect --mc root@localhost
+Creating a Classic session to 'root@localhost'
+Please provide the password for 'root@localhost': ****
+Save password for 'root@localhost'? [Y]es/[N]o/Ne[v]er (default No): n
+Fetching global names for auto-completion... Press ^C to stop.
+Your MySQL connection id is 13
+Server version: 8.0.46 MySQL Community Server - GPL
+No default schema selected; type \use <schema> to set one.
+ MySQL  localhost:3306 ssl  SQL > use sakila;
+Default schema set to `sakila`.
+Fetching global names, object names from `sakila` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  sakila  SQL > show databases;
++--------------------+
+| Database           |
++--------------------+
+| information_schema |
+| mysql              |
+| performance_schema |
+| sakila             |
+| sys                |
+| t1                 |
+| world              |
++--------------------+
+7 rows in set (0.0011 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > show tables;
++----------------------------+
+| Tables_in_sakila           |
++----------------------------+
+| actor                      |
+| actor_info                 |
+| address                    |
+| category                   |
+| city                       |
+| country                    |
+| customer                   |
+| customer_list              |
+| film                       |
+| film_actor                 |
+| film_category              |
+| film_list                  |
+| film_text                  |
+| inventory                  |
+| language                   |
+| nicer_but_slower_film_list |
+| payment                    |
+| rental                     |
+| sales_by_film_category     |
+| sales_by_store             |
+| staff                      |
+| staff_list                 |
+| store                      |
++----------------------------+
+23 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > desc customer;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| customer_id | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| store_id    | tinyint unsigned  | NO   | MUL | NULL              |                                               |
+| first_name  | varchar(45)       | NO   |     | NULL              |                                               |
+| last_name   | varchar(45)       | NO   | MUL | NULL              |                                               |
+| email       | varchar(50)       | YES  |     | NULL              |                                               |
+| address_id  | smallint unsigned | NO   | MUL | NULL              |                                               |
+| active      | tinyint(1)        | NO   |     | 1                 |                                               |
+| create_date | datetime          | NO   |     | NULL              |                                               |
+| last_update | timestamp         | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+9 rows in set (0.0081 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > use t1;
+Default schema set to `t1`.
+Fetching global names, object names from `t1` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  t1  SQL > select * from persona;
++------------+----------+------------+------------+------------+
+| id_persona | nombre   | ap_paterno | ap_materno | fecha_nac  |
++------------+----------+------------+------------+------------+
+|          1 | Mario    | Garcia     | Silva      | 2006-05-09 |
+|          2 | Mario    | Garcia     | Silva      | 2006-05-09 |
+|          3 | Luis     | Rojas      | NULL       | 1999-12-12 |
++------------+----------+------------+------------+------------+
+3 rows in set (0.0190 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > create database t1_copia;
+Query OK, 1 row affected (0.0101 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > use t1_copia;
+Default schema set to `t1_copia`.
+Fetching global names, object names from `t1_copia` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  t1_copia  SQL > show tables;
+Empty set (0.0015 sec)
+ MySQL  localhost:3306 ssl  t1_copia  SQL > create table persona like t1.persona;
+Query OK, 0 rows affected (0.0241 sec)
+ MySQL  localhost:3306 ssl  t1_copia  SQL > show tables;
++--------------------+
+| Tables_in_t1_copia |
++--------------------+
+| persona            |
++--------------------+
+1 row in set (0.0016 sec)
+ MySQL  localhost:3306 ssl  t1_copia  SQL > select * from persona;
+Empty set (0.0015 sec)
+ MySQL  localhost:3306 ssl  t1_copia  SQL > create table persona_datos as select * from t1.persona;
+Query OK, 3 rows affected (0.0229 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1_copia  SQL > show tables;
++--------------------+
+| Tables_in_t1_copia |
++--------------------+
+| persona            |
+| persona_datos      |
++--------------------+
+2 rows in set (0.0013 sec)
+ MySQL  localhost:3306 ssl  t1_copia  SQL > desc persona_datos;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| id_persona | int         | NO   |     | 0       |       |
+| nombre     | varchar(50) | NO   |     | NULL    |       |
+| ap_paterno | varchar(50) | NO   |     | NULL    |       |
+| ap_materno | varchar(50) | YES  |     | NULL    |       |
+| fecha_nac  | date        | NO   |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+5 rows in set (0.0019 sec)
+ MySQL  localhost:3306 ssl  t1_copia  SQL > select * from persona_datos;
++------------+----------+------------+------------+------------+
+| id_persona | nombre   | ap_paterno | ap_materno | fecha_nac  |
++------------+----------+------------+------------+------------+
+|          1 | Mario    | Garcia     | Silva      | 2006-05-09 |
+|          2 | Mario    | Garcia     | Silva      | 2006-05-09 |
+|          3 | Luis     | Rojas      | NULL       | 1999-12-12 |
++------------+----------+------------+------------+------------+
+3 rows in set (0.0007 sec)
+ MySQL  localhost:3306 ssl  t1_copia  SQL > create table persona_datos2 as select nombre, ap_paterno from t1.persona;
+Query OK, 3 rows affected (0.0227 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1_copia  SQL > show tables;
++--------------------+
+| Tables_in_t1_copia |
++--------------------+
+| persona            |
+| persona_datos      |
+| persona_datos2     |
++--------------------+
+3 rows in set (0.0009 sec)
+ MySQL  localhost:3306 ssl  t1_copia  SQL > desc persona_datos2;
++------------+-------------+------+-----+---------+-------+
+| Field      | Type        | Null | Key | Default | Extra |
++------------+-------------+------+-----+---------+-------+
+| nombre     | varchar(50) | NO   |     | NULL    |       |
+| ap_paterno | varchar(50) | NO   |     | NULL    |       |
++------------+-------------+------+-----+---------+-------+
+2 rows in set (0.0019 sec)
+ MySQL  localhost:3306 ssl  t1_copia  SQL > select * from persona_datos2;
++----------+------------+
+| nombre   | ap_paterno |
++----------+------------+
+| Mario    | Garcia     |
+| Mario    | Garcia     |
+| Luis     | Rojas      |
++----------+------------+
+3 rows in set (0.0007 sec)
+ MySQL  localhost:3306 ssl  t1_copia  SQL > use sakila;
+Default schema set to `sakila`.
+Fetching global names, object names from `sakila` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  sakila  SQL > select count(*) from customer;
++----------+
+| count(*) |
++----------+
+|      599 |
++----------+
+1 row in set (0.0226 sec)
+ MySQL  localhost:3306 ssl  sakila  SQL > use t1;
+Default schema set to `t1`.
+Fetching global names, object names from `t1` for auto-completion... Press ^C to stop.
+ MySQL  localhost:3306 ssl  t1  SQL > create table customer_copia as select * from sakila.customer;
+Query OK, 599 rows affected (0.0452 sec)
+
+Records: 599  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1  SQL > show tables;
++----------------+
+| Tables_in_t1   |
++----------------+
+| customer_copia |
+| persona        |
++----------------+
+3 rows in set (0.0018 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > create table actor_copia like sakila.actor;
+Query OK, 0 rows affected (0.0502 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > show tables;
++----------------+
+| Tables_in_t1   |
++----------------+
+| actor_copia    |
+| customer_copia |
+| persona        |
++----------------+
+4 rows in set (0.0017 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > desc actor_copia;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| actor_id    | smallint unsigned | NO   | PRI | NULL              | auto_increment                                |
+| first_name  | varchar(45)       | NO   |     | NULL              |                                               |
+| last_name   | varchar(45)       | NO   | MUL | NULL              |                                               |
+| last_update | timestamp         | NO   |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+4 rows in set (0.0020 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > desc customer_copia;
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| Field       | Type              | Null | Key | Default           | Extra                                         |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+| customer_id | smallint unsigned | NO   |     | 0                 |                                               |
+| store_id    | tinyint unsigned  | NO   |     | NULL              |                                               |
+| first_name  | varchar(45)       | NO   |     | NULL              |                                               |
+| last_name   | varchar(45)       | NO   |     | NULL              |                                               |
+| email       | varchar(50)       | YES  |     | NULL              |                                               |
+| address_id  | smallint unsigned | NO   |     | NULL              |                                               |
+| active      | tinyint(1)        | NO   |     | 1                 |                                               |
+| create_date | datetime          | NO   |     | NULL              |                                               |
+| last_update | timestamp         | YES  |     | CURRENT_TIMESTAMP | DEFAULT_GENERATED on update CURRENT_TIMESTAMP |
++-------------+-------------------+------+-----+-------------------+-----------------------------------------------+
+9 rows in set (0.0021 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > select count(*) from customer_copia;
++----------+
+| count(*) |
++----------+
+|      599 |
++----------+
+1 row in set (0.0050 sec)
+ MySQL  localhost:3306 ssl  t1  SQL >  desc persona;
++------------+-------------+------+-----+---------+----------------+
+| Field      | Type        | Null | Key | Default | Extra          |
++------------+-------------+------+-----+---------+----------------+
+| id_persona | int         | NO   | PRI | NULL    | auto_increment |
+| nombre     | varchar(50) | NO   |     | NULL    |                |
+| ap_paterno | varchar(50) | NO   |     | NULL    |                |
+| ap_materno | varchar(50) | YES  |     | NULL    |                |
+| fecha_nac  | date        | NO   |     | NULL    |                |
++------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.0014 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > create table vehiculo(
+                                   -> id_vehiculo int not null key auto_increment,
+                                   -> marca varchar(50) not null default "Ford",
+                                   -> modelo varchar(50) not null default "Focus",
+                                   -> year int not null default "2008",
+                                   -> color varchar(50));
+Query OK, 0 rows affected (0.0280 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > desc vehiculo;
++-------------+-------------+------+-----+---------+----------------+
+| Field       | Type        | Null | Key | Default | Extra          |
++-------------+-------------+------+-----+---------+----------------+
+| id_vehiculo | int         | NO   | PRI | NULL    | auto_increment |
+| marca       | varchar(50) | NO   |     | Ford    |                |
+| modelo      | varchar(50) | NO   |     | Focus   |                |
+| year        | int         | NO   |     | 2008    |                |
+| color       | varchar(50) | YES  |     | NULL    |                |
++-------------+-------------+------+-----+---------+----------------+
+5 rows in set (0.0024 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > insert into vehiculo(color)
+                                   -> values ("rojo"), ("gris"), ("negro");
+Query OK, 3 rows affected (0.0069 sec)
+
+Records: 3  Duplicates: 0  Warnings: 0
+ MySQL  localhost:3306 ssl  t1  SQL > select * from vehiculo;
++-------------+--------+--------+------+-------+
+| id_vehiculo | marca  | modelo | year | color |
++-------------+--------+--------+------+-------+
+|           1 | Ford   | Focus  | 2008 | rojo  |
+|           2 | Ford   | Focus  | 2008 | gris  |
+|           3 | Ford   | Focus  | 2008 | negro |
++-------------+--------+--------+------+-------+
+3 rows in set (0.0007 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > insert into vehiculo(marca, modelo, year)
+                                   -> values("Honda","19","2006");
+Query OK, 1 row affected (0.0072 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > select * from vehiculo;
++-------------+--------+--------+------+-------+
+| id_vehiculo | marca  | modelo | year | color |
++-------------+--------+--------+------+-------+
+|           1 | Ford   | Focus  | 2008 | rojo  |
+|           2 | Ford   | Focus  | 2008 | gris  |
+|           3 | Ford   | Focus  | 2008 | negro |
+|           4 | Honda  | 19     | 2006 | NULL  |
++-------------+--------+--------+------+-------+
+4 rows in set (0.0006 sec)
+ MySQL  localhost:3306 ssl  t1  SQL > \disconnect
+                                   ->
